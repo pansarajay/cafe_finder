@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrewSpot London — Cafes with WiFi & Good Coffee</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --espresso: #1a0f0a;
+    --roast: #3d1f0d;
+    --crema: #c8955e;
+    --milk: #f5ede3;
+    --steam: #fffaf5;
+    --text: #1a0f0a;
+    --muted: #8a6a55;
+    --card-bg: #ffffff;
+    --border: rgba(200,149,94,0.2);
+    --shadow: 0 4px 32px rgba(26,15,10,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--steam);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ——— HEADER ——— */
+  header {
+    background: var(--espresso);
+    color: var(--milk);
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    border-bottom: 1px solid rgba(200,149,94,0.15);
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .logo span { color: var(--crema); }
+
+  .header-right { display: flex; gap: 1rem; align-items: center; }
+
+  .btn-add {
+    background: var(--crema);
+    color: var(--espresso);
+    border: none;
+    padding: 0.5rem 1.2rem;
+    border-radius: 2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.875rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-add:hover { background: #d9a66e; transform: translateY(-1px); }
+
+  /* ——— HERO ——— */
+  .hero {
+    background: var(--espresso);
+    color: var(--milk);
+    padding: 4rem 2rem 3.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(200,149,94,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(200,149,94,0.15);
+    border: 1px solid rgba(200,149,94,0.3);
+    color: var(--crema);
+    padding: 0.3rem 0.9rem;
+    border-radius: 2rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 1.2rem;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+
+  .hero h1 em { color: var(--crema); font-style: italic; }
+
+  .hero p {
+    color: rgba(245,237,227,0.65);
+    font-size: 1.05rem;
+    max-width: 480px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.6;
+  }
+
+  /* ——— SEARCH & FILTER BAR ——— */
+  .controls {
+    max-width: 1100px;
+    margin: -1.5rem auto 0;
+    padding: 0 1.5rem;
+    position: relative;
+    z-index: 10;
+  }
+
+  .controls-inner {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 8px 48px rgba(26,15,10,0.14);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .search-wrap {
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-wrap svg {
+    position: absolute;
+    left: 0.9rem;
+    color: var(--muted);
+    pointer-events: none;
+  }
+
+  .search-wrap input {
+    width: 100%;
+    padding: 0.65rem 1rem 0.65rem 2.6rem;
+    border: 1.5px solid var(--border);
+    border-radius: 0.6rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    background: var(--steam);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-wrap input:focus { border-color: var(--crema); background: white; }
+  .search-wrap input::placeholder { color: var(--muted); }
+
+  .filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem 0.9rem;
+    border: 1.5px solid var(--border);
+    border-radius: 0.6rem;
+    background: var(--steam);
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .filter-btn.active {
+    background: var(--espresso);
+    color: var(--crema);
+    border-color: var(--espresso);
+  }
+  .filter-btn:hover:not(.active) { border-color: var(--crema); color: var(--crema); }
+
+  .divider-v { width: 1px; height: 28px; background: var(--border); }
+
+  select.location-select {
+    padding: 0.6rem 2rem 0.6rem 0.9rem;
+    border: 1.5px solid var(--border);
+    border-radius: 0.6rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    background: var(--steam) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238a6a55' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 0.65rem center;
+    color: var(--text);
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  select.location-select:focus { border-color: var(--crema); }
+
+  /* ——— STATS BAR ——— */
+  .stats-bar {
+    max-width: 1100px;
+    margin: 1.5rem auto 0.5rem;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .stats-count {
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+  .stats-count strong { color: var(--text); font-weight: 600; }
+
+  .sort-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .sort-wrap select {
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 0.3rem 1.8rem 0.3rem 0.6rem;
+    background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%238a6a55' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 0.4rem center;
+    appearance: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    color: var(--text);
+    outline: none;
+    cursor: pointer;
+  }
+
+  /* ——— CARDS GRID ——— */
+  .cards-grid {
+    max-width: 1100px;
+    margin: 1rem auto 4rem;
+    padding: 0 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .cafe-card {
+    background: white;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.25s, box-shadow 0.25s;
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    animation: cardIn 0.4s ease both;
+  }
+
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .cafe-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 48px rgba(26,15,10,0.14);
+  }
+
+  .card-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    background: var(--milk);
+    position: relative;
+    display: block;
+  }
+
+  .card-img-wrap {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-img-wrap img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  .cafe-card:hover .card-img-wrap img { transform: scale(1.04); }
+
+  .card-img-placeholder {
+    width: 100%;
+    height: 180px;
+    background: linear-gradient(135deg, var(--roast), var(--espresso));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--crema);
+    font-size: 2.5rem;
+  }
+
+  .price-badge {
+    position: absolute;
+    top: 0.7rem;
+    right: 0.7rem;
+    background: var(--espresso);
+    color: var(--crema);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.6rem;
+    border-radius: 2rem;
+    letter-spacing: 0.02em;
+  }
+
+  .card-body {
+    padding: 1.1rem 1.25rem 0.75rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-location {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--crema);
+    margin-bottom: 0.35rem;
+  }
+
+  .card-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--espresso);
+    line-height: 1.25;
+    margin-bottom: 0.8rem;
+  }
+
+  .card-amenities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .amenity {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 0.25rem 0.6rem;
+    border-radius: 0.4rem;
+    letter-spacing: 0.01em;
+  }
+  .amenity.yes { background: #edf7f0; color: #27824a; }
+  .amenity.no  { background: #f7f0f0; color: #b34040; text-decoration: line-through; opacity: 0.6; }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+    margin-top: auto;
+  }
+
+  .seats-info {
+    font-size: 0.78rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .card-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .btn-map, .btn-delete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .btn-map {
+    background: var(--milk);
+    color: var(--crema);
+  }
+  .btn-map:hover { background: var(--crema); color: white; }
+
+  .btn-delete {
+    background: #fff0f0;
+    color: #c04040;
+  }
+  .btn-delete:hover { background: #c04040; color: white; }
+
+  /* ——— EMPTY STATE ——— */
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 1rem;
+    color: var(--muted);
+  }
+  .empty-state .big-icon { font-size: 3rem; margin-bottom: 1rem; }
+  .empty-state h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  /* ——— MODAL ——— */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(26,15,10,0.55);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+  }
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal {
+    background: white;
+    border-radius: 1.25rem;
+    padding: 2rem;
+    width: 100%;
+    max-width: 520px;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: scale(0.95) translateY(20px);
+    transition: transform 0.3s ease;
+    box-shadow: 0 32px 80px rgba(26,15,10,0.2);
+  }
+  .modal-overlay.open .modal {
+    transform: scale(1) translateY(0);
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+  }
+
+  .modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--espresso);
+  }
+
+  .modal-close {
+    background: var(--milk);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .modal-close:hover { background: var(--crema); color: white; }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-bottom: 1rem;
+  }
+
+  .form-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .form-group input, .form-group select {
+    padding: 0.65rem 0.9rem;
+    border: 1.5px solid var(--border);
+    border-radius: 0.6rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--steam);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus, .form-group select:focus {
+    border-color: var(--crema);
+    background: white;
+  }
+
+  .checkboxes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    color: var(--text);
+    padding: 0.6rem 0.9rem;
+    border: 1.5px solid var(--border);
+    border-radius: 0.6rem;
+    transition: all 0.2s;
+    background: var(--steam);
+  }
+  .checkbox-item:has(input:checked) {
+    background: #edf7f0;
+    border-color: #27824a;
+    color: #1a5430;
+  }
+  .checkbox-item input[type=checkbox] {
+    accent-color: #27824a;
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+  }
+
+  .btn-submit {
+    width: 100%;
+    padding: 0.85rem;
+    background: var(--espresso);
+    color: var(--crema);
+    border: none;
+    border-radius: 0.75rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .btn-submit:hover { background: var(--roast); transform: translateY(-1px); }
+
+  /* ——— TOAST ——— */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--espresso);
+    color: var(--crema);
+    padding: 0.75rem 1.5rem;
+    border-radius: 2rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    z-index: 2000;
+    transition: transform 0.35s ease;
+    pointer-events: none;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ——— FOOTER ——— */
+  footer {
+    background: var(--espresso);
+    color: rgba(245,237,227,0.4);
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.8rem;
+  }
+  footer strong { color: var(--crema); }
+
+  /* ——— RESPONSIVE ——— */
+  @media (max-width: 640px) {
+    .hero { padding: 3rem 1.25rem 3rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .controls-inner { flex-direction: column; align-items: stretch; }
+    .filter-group { justify-content: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">☕ Brew<span>Spot</span></div>
+  <div class="header-right">
+    <span style="font-size:0.8rem;color:rgba(245,237,227,0.45);">London</span>
+    <button class="btn-add" onclick="openModal()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Add Cafe
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">☕ 21 Cafes Listed</div>
+  <h1>Work from the <em>perfect</em><br>London cafe.</h1>
+  <p>Find cafes with fast WiFi, power sockets, and great coffee — curated for remote workers.</p>
+</section>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="controls-inner">
+    <div class="search-wrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="searchInput" placeholder="Search by name or location…" oninput="applyFilters()">
+    </div>
+    <div class="divider-v"></div>
+    <div class="filter-group">
+      <button class="filter-btn" data-filter="wifi" onclick="toggleFilter(this)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/></svg>
+        WiFi
+      </button>
+      <button class="filter-btn" data-filter="sockets" onclick="toggleFilter(this)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 10v4M15 10v4"/></svg>
+        Sockets
+      </button>
+      <button class="filter-btn" data-filter="toilet" onclick="toggleFilter(this)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2v20M6 10h12M18 2v8"/></svg>
+        Toilet
+      </button>
+      <button class="filter-btn" data-filter="calls" onclick="toggleFilter(this)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.99 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.9 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9a16 16 0 0 0 6.29 6.29l1.14-1.14a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Calls OK
+      </button>
+    </div>
+    <div class="divider-v"></div>
+    <select class="location-select" id="locationSelect" onchange="applyFilters()">
+      <option value="">All Locations</option>
+    </select>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-count"><strong id="countDisplay">21</strong> cafes found</div>
+  <div class="sort-wrap">
+    Sort by:
+    <select id="sortSelect" onchange="applyFilters()">
+      <option value="name">Name</option>
+      <option value="price_asc">Price ↑</option>
+      <option value="price_desc">Price ↓</option>
+      <option value="location">Location</option>
+    </select>
+  </div>
+</div>
+
+<!-- CARDS GRID -->
+<div class="cards-grid" id="cardsGrid"></div>
+
+<!-- ADD CAFE MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Add a New Cafe ☕</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+
+    <div class="form-group">
+      <label>Cafe Name *</label>
+      <input type="text" id="f_name" placeholder="e.g. The Coffee Spot">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Location *</label>
+        <input type="text" id="f_location" placeholder="e.g. Shoreditch">
+      </div>
+      <div class="form-group">
+        <label>Coffee Price</label>
+        <input type="text" id="f_price" placeholder="e.g. £2.80">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Google Maps URL</label>
+      <input type="url" id="f_map_url" placeholder="https://goo.gl/maps/...">
+    </div>
+    <div class="form-group">
+      <label>Image URL</label>
+      <input type="url" id="f_img_url" placeholder="https://...">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Seats</label>
+        <select id="f_seats">
+          <option value="">Unknown</option>
+          <option value="0-10">0 – 10</option>
+          <option value="10-20">10 – 20</option>
+          <option value="20-30">20 – 30</option>
+          <option value="30-40">30 – 40</option>
+          <option value="40-50">40 – 50</option>
+          <option value="50+">50+</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="font-size:0.8rem;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:var(--muted);margin-bottom:0.6rem;">Amenities</div>
+    <div class="checkboxes-grid">
+      <label class="checkbox-item"><input type="checkbox" id="f_wifi"> WiFi Available</label>
+      <label class="checkbox-item"><input type="checkbox" id="f_sockets"> Power Sockets</label>
+      <label class="checkbox-item"><input type="checkbox" id="f_toilet"> Toilet</label>
+      <label class="checkbox-item"><input type="checkbox" id="f_calls"> Calls OK</label>
+    </div>
+
+    <button class="btn-submit" onclick="addCafe()">Add Cafe to BrewSpot</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- FOOTER -->
+<footer>
+  Built for Day 66 · <strong>BrewSpot London</strong> · Data from cafes.db
+</footer>
+
+<script>
+// ——— DATA ———
+let cafes = [
+  {id:1,name:"Science Gallery London",map_url:"https://g.page/scigallerylon?share",img_url:"https://atlondonbridge.com/wp-content/uploads/2019/02/Pano_9758_9761-Edit-190918_LTS_Science_Gallery-Medium-Crop-V2.jpg",location:"London Bridge",has_sockets:true,has_toilet:true,has_wifi:false,can_take_calls:true,seats:"50+",coffee_price:"£2.40"},
+  {id:2,name:"Social - Copeland Road",map_url:"https://g.page/CopelandSocial?share",img_url:"https://images.squarespace-cdn.com/content/v1/5734f3ff4d088e2c5b08fe13/1555848382269-9F13FE1WQDNUUDQOAOXF/ke17ZwdGBToddI8pDm48kAeyi0pcxjZfLZiASAF9yCBZw-zPPgdn4jUwVcJE1ZvWQUxwkmyExglNqGp0IvTJZUJFbgE-7XRK3dMEBRBhUpzV8NE8s7067ZLWyi1jRvJklJnlBFEUyq1al9AqaQ7pI4DcRJq_Lf3JCtFMXgpPQyk/copeland-park-bar-peckham",location:"Peckham",has_sockets:true,has_toilet:true,has_wifi:true,can_take_calls:false,seats:"20-30",coffee_price:"£2.75"},
+  {id:3,name:"One & All Cafe Peckham",map_url:"https://g.page/one-all-cafe?share",img_url:"https://lh3.googleusercontent.com/p/AF1QipOMzXpKAQNyUvrjTGHqCgWk8spwnzwP8Ml2aDKt=s0",location:"Peckham",has_sockets:true,has_toilet:true,has_wifi:true,can_take_calls:false,seats:"20-30",coffee_price:"£2.75"},
+  {id:4,name:"Old Spike",map_url:"https://www.google.com/maps/place/Old+Spike+Roastery/@51.4651552,-0.0666088",img_url:"https://lh3.googleusercontent.com/p/AF1QipPBAt6bYna7pv5c7e_PhCDPMKPb6oFf6kMT2VQ1=s0",location:"Peckham",has_sockets:true,has_toilet:false,has_wifi:true,can_take_calls:false,seats:"0-10",coffee_price:"£2.80"},
+  {id:5,name:"Fuckoffee Bermondsey",map_url:"https://goo.gl/maps/ugP2B1AV7FELHSgn6",img_url:"https://lh3.googleusercontent.com/p/AF1QipM9Dz_QMkOF2da1aNLuTzS_vPvVWBnE84rZLK_G=s0",location:"Bermondsey",has_sockets:true,has_toilet:true,has_wifi:true,can_take_calls:false,seats:"20-30",coffee_price:"£2.65"},
+  {id:6,name:"Mare Street Market",map_url:"https://goo.gl/maps/DWnwaeeiwdYsBkEH9",img_url:"https://lh3.googleusercontent.com/p/AF1QipN-C650VmJ1XZhzOIBTg1bUu3_to_GHpyrmUplt=s0",location:"Hackney",has_sockets:true,has_toilet:true,has_wifi:true,can_take_calls:false,seats:"50+",coffee_price:"£2.80"},
+  {id:7,name:"Ace Hotel Shoreditch",map_url:"https://g.page/acehotellondon?share",img_url:"https://lh3.googleusercontent.com/p/AF1QipP_NbZH7A1fIQyp5pRm1jOGwzKsDWewaxka6vDt=s0",location:"Shoreditch",has_sockets:true,has_toilet:true,has_wifi:true,can_take_calls:false,seats:"50+",coffee_price:"£3.00"},
+  {id:8,name:"Goswell Road Coffee",map_url:"https://goo.gl/maps/D9nXNYK3fa1cxwpK8",img_url:"https://lh3.googleusercontent.com/p/AF1QipPnOfo7wTICdiAyybF3iFhD3l5aoQjSO-GErma1=s0",location:"Clerkenwell",has_sockets:true,has_toilet:true,has_wifi:true,can_take_calls:false,seats:"10-20",coffee_price:"£2.10"},
+  {id:9,name:"The Southwark Cathedral Cafe",map_url:"https://goo.gl/maps/LU1imQzBCRLFBxKUA",img_url:"https://lh3.googleusercontent.com/p/AF1QipMrdTyRRozGBltwxAseQ4QeuNhbED6meQXlCPsx=s0",location:"London Bridge",has_sockets:true,has_toilet:true,has_wifi:true,can_take_calls:true,seats:"20-30",coffee_price:"£2.30"},
+  {id:10,name:"Trade Commercial Road",map_url:"https://goo.gl/maps/v5tzRBVhPFueYp4x6",img_url:"https://lh3.googleusercontent.com/p/AF1QipNtHqqIc3kwhpjknrVcMdkhmpA77LDYKmpOJlxf=s0",location:"Whitechapel",has_sockets:false,has_toilet:true,has_wifi:true,can_take_calls:false,seats:"20-30",coffee_price:"£2.70"},
+  {id:11,name:"The Tate Modern Cafe",map_url:"https://goo.gl/maps/6RvPHyhsDDUPs1ox8",img_url:"https://lh3.googleusercontent.com/p/AF1QipOFimpFQmUORVGg0ER3lrfEiEnKpnYJck5guFqC=s0",location:"Bankside",has_sockets:false,has_toilet:true,has_wifi:true,can_take_calls:true,seats:"30-40",coffee_price:"£2.70"},
+  {id:12,name:"Forage Cafe",map_url:"https://goo.gl/maps/HC4e9FJL48kLRH8W9",img_url:"https://lh3.googleusercontent.com/p/AF1QipPyJHFtVzxor4RyQrT-ZEk7ej7OxvmIQYZUHe6G=s0",location:"Clerkenwell",has_sockets:true,has_toilet:true,has_wifi:true,can_take_calls:true,seats:"20-30",coffee_price:"£2.50"},
+  {id:13,name:"Citizen M Hotel Shoreditch",map_url:"https://g.page/citizenm-london-shoreditch?share",img_url:"https://lh3.googleusercontent.com/p/AF1QipNJQIg-6YTOZhbLu12yGPN3klDxygs7cNAjEo0C=s0",location:"Shoreditch",has_sockets:true,has_toilet:true,has_wifi:true,can_take_calls:false,seats:"30-40",coffee_price:"£2.80"},
+  {id:14,name:"Barbican Centre",map_url:"https://goo.gl/maps/XPrcFj91LsQBvUa27",img_url:"https://images.adsttc.com/media/images/5014/ec99/28ba/0d58/2800/0d0f/large_jpg/stringio.jpg?1414576924",location:"Barbican",has_sockets:false,has_toilet:true,has_wifi:true,can_take_calls:true,seats:"50+",coffee_price:"£3.00"},
+  {id:15,name:"The Slaughtered Lamb",map_url:"https://goo.gl/maps/mwAG272nQwSUc9bn8",img_url:"https://lh3.googleusercontent.com/p/AF1QipOL6jxxpE_D3YS-Zzih61DqNXJKvRIDFiP6ieUI=s0",location:"Clerkenwell",has_sockets:false,has_toilet:true,has_wifi:true,can_take_calls:false,seats:"20-30",coffee_price:"£2.60"},
+  {id:16,name:"Fernandez and Wells Exhibition Road",map_url:"https://goo.gl/maps/GPFSEuGEiDvQG8BH7",img_url:"https://lh3.googleusercontent.com/p/AF1QipOchpT9ipgb7tpqglcTKpp2E8kZhsKvlYjUZ4e1=s0",location:"South Kensington",has_sockets:false,has_toilet:false,has_wifi:true,can_take_calls:false,seats:"10-20",coffee_price:"£1.80"},
+  {id:17,name:"Whitechapel Grind",map_url:"https://goo.gl/maps/xv29seioiETAAZgN9",img_url:"https://lh3.googleusercontent.com/p/AF1QipOZ3WDAAxphLu657afVVATJ5TGxtturIOr8gt8u=s0",location:"Whitechapel",has_sockets:true,has_toilet:false,has_wifi:true,can_take_calls:true,seats:"30-40",coffee_price:"£2.60"},
+  {id:18,name:"The Peckham Pelican",map_url:"https://goo.gl/maps/qpcpX7MWhFSS1qxH9",img_url:"https://lh3.googleusercontent.com/p/AF1QipOutkI7wjWNXiPSTdf8CX0jXwyVHFTwFnVhyVJE=s0",location:"Peckham",has_sockets:true,has_toilet:false,has_wifi:true,can_take_calls:true,seats:"0-10",coffee_price:"£2.60"},
+  {id:19,name:"Natural History Museum Library",map_url:"https://goo.gl/maps/VU2PwnDDtH1WqCnK7",img_url:"https://www.nhm.ac.uk/content/dam/nhmwww/business-services/filming/Earth-Sciences-Library-1.jpg",location:"South Kensington",has_sockets:true,has_toilet:false,has_wifi:true,can_take_calls:false,seats:"40-50",coffee_price:"£2.00"},
+  {id:20,name:"The Bike Shed",map_url:"https://goo.gl/maps/gYX271NxyuawiMcK8",img_url:"https://lh3.googleusercontent.com/p/AF1QipNlBWFgXBiP9YjKARy4dgjHGePOmtsfuQPRwGvb=s0",location:"Shoreditch",has_sockets:true,has_toilet:false,has_wifi:true,can_take_calls:false,seats:"10-20",coffee_price:"£2.80"},
+  {id:21,name:"FORA Borough",map_url:"https://g.page/fora---borough?share",img_url:"https://lh3.googleusercontent.com/p/AF1QipOhkJk2MBtFW1RydPU0zf3bf8upGkTQWyhDpXzZ=s0",location:"Borough",has_sockets:true,has_toilet:false,has_wifi:true,can_take_calls:true,seats:"20-30",coffee_price:"£2.40"}
+];
+
+let nextId = 22;
+let activeFilters = new Set();
+
+// ——— HELPERS ———
+function priceToNum(p) {
+  if (!p) return 0;
+  return parseFloat(p.replace(/[^0-9.]/g,'')) || 0;
+}
+
+function getLocations() {
+  return [...new Set(cafes.map(c => c.location))].sort();
+}
+
+function populateLocations() {
+  const sel = document.getElementById('locationSelect');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">All Locations</option>';
+  getLocations().forEach(loc => {
+    sel.innerHTML += `<option value="${loc}" ${cur===loc?'selected':''}>${loc}</option>`;
+  });
+}
+
+// ——— FILTERS ———
+function toggleFilter(btn) {
+  const f = btn.dataset.filter;
+  if (activeFilters.has(f)) { activeFilters.delete(f); btn.classList.remove('active'); }
+  else { activeFilters.add(f); btn.classList.add('active'); }
+  applyFilters();
+}
+
+function applyFilters() {
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  const loc = document.getElementById('locationSelect').value;
+  const sort = document.getElementById('sortSelect').value;
+
+  let filtered = cafes.filter(c => {
+    if (q && !c.name.toLowerCase().includes(q) && !c.location.toLowerCase().includes(q)) return false;
+    if (loc && c.location !== loc) return false;
+    if (activeFilters.has('wifi') && !c.has_wifi) return false;
+    if (activeFilters.has('sockets') && !c.has_sockets) return false;
+    if (activeFilters.has('toilet') && !c.has_toilet) return false;
+    if (activeFilters.has('calls') && !c.can_take_calls) return false;
+    return true;
+  });
+
+  if (sort === 'name') filtered.sort((a,b) => a.name.localeCompare(b.name));
+  else if (sort === 'price_asc') filtered.sort((a,b) => priceToNum(a.coffee_price) - priceToNum(b.coffee_price));
+  else if (sort === 'price_desc') filtered.sort((a,b) => priceToNum(b.coffee_price) - priceToNum(a.coffee_price));
+  else if (sort === 'location') filtered.sort((a,b) => a.location.localeCompare(b.location));
+
+  renderCards(filtered);
+  document.getElementById('countDisplay').textContent = filtered.length;
+}
+
+// ——— RENDER ———
+function amenityTag(label, icon, val) {
+  return `<span class="amenity ${val?'yes':'no'}">${icon} ${label}</span>`;
+}
+
+function renderCards(list) {
+  const grid = document.getElementById('cardsGrid');
+  if (list.length === 0) {
+    grid.innerHTML = `<div class="empty-state">
+      <div class="big-icon">☕</div>
+      <h3>No cafes found</h3>
+      <p>Try adjusting your filters or search query.</p>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = list.map((c, i) => `
+    <div class="cafe-card" style="animation-delay:${i*0.04}s">
+      <div class="card-img-wrap">
+        ${c.img_url
+          ? `<img src="${c.img_url}" alt="${c.name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=card-img-placeholder>☕</div>'">`
+          : `<div class="card-img-placeholder">☕</div>`}
+        ${c.coffee_price ? `<div class="price-badge">${c.coffee_price}</div>` : ''}
+      </div>
+      <div class="card-body">
+        <div class="card-location">${c.location}</div>
+        <div class="card-name">${c.name}</div>
+        <div class="card-amenities">
+          ${amenityTag('WiFi','📶', c.has_wifi)}
+          ${amenityTag('Sockets','🔌', c.has_sockets)}
+          ${amenityTag('Toilet','🚻', c.has_toilet)}
+          ${amenityTag('Calls','📞', c.can_take_calls)}
+        </div>
+        <div class="card-footer">
+          <div class="seats-info">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            ${c.seats || '?'} seats
+          </div>
+          <div class="card-actions">
+            ${c.map_url ? `<a class="btn-map" href="${c.map_url}" target="_blank" rel="noopener" title="View on Map">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+            </a>` : ''}
+            <button class="btn-delete" title="Remove cafe" onclick="deleteCafe(${c.id})">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ——— DELETE ———
+function deleteCafe(id) {
+  cafes = cafes.filter(c => c.id !== id);
+  populateLocations();
+  applyFilters();
+  showToast('☕ Cafe removed');
+}
+
+// ——— ADD CAFE ———
+function openModal() {
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function handleOverlayClick(e) {
+  if (e.target === e.currentTarget) closeModal();
+}
+
+
+async function addCafe() {
+    const name     = document.getElementById('f_name').value.trim();
+    const location = document.getElementById('f_location').value.trim();
+
+    if (!name || !location) {
+        showToast('⚠️ Name and location are required');
+        return;
+    }
+
+    const payload = {
+        name,
+        location,
+        coffee_price:   document.getElementById('f_price').value.trim(),
+        map_url:        document.getElementById('f_map_url').value.trim(),
+        img_url:        document.getElementById('f_img_url').value.trim(),
+        seats:          document.getElementById('f_seats').value,
+        has_wifi:       document.getElementById('f_wifi').checked,
+        has_sockets:    document.getElementById('f_sockets').checked,
+        has_toilet:     document.getElementById('f_toilet').checked,
+        can_take_calls: document.getElementById('f_calls').checked,
+    };
+
+    try {
+        const res  = await fetch('/add', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            showToast('❌ ' + data.error);
+            return;
+        }
+
+        // Add the new cafe to the local array so the card appears instantly
+        cafes.push({ id: data.id, ...payload });
+
+        // Reset all form fields
+        ['f_name','f_location','f_price','f_map_url','f_img_url']
+            .forEach(id => document.getElementById(id).value = '');
+        ['f_wifi','f_sockets','f_toilet','f_calls']
+            .forEach(id => document.getElementById(id).checked = false);
+        document.getElementById('f_seats').value = '';
+
+        closeModal();
+        populateLocations();
+        applyFilters();
+        showToast('✅ ' + data.message);
+
+    } catch (err) {
+        showToast('❌ Could not reach server');
+        console.error(err);
+    }
+}
+
+// ——— TOAST ———
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ——— INIT ———
+populateLocations();
+applyFilters();
+
+// Keyboard ESC to close modal
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
